@@ -31,3 +31,9 @@ char input(char text[], char string[], int string_length)
 
     return *string;
 }
+
+int random_number(int min, int max)
+{
+    int number = (rand() % max) + min;
+    return number;
+}

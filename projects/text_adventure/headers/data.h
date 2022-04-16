@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 // Structs
 struct locations {
@@ -27,4 +28,5 @@ struct character {
 void display_room(struct character player, struct locations *rooms);
 _Bool exit_is_valid(int choice, int location, struct locations *rooms);
 char input(char text[], char string[], int string_length);
-
+void dice(int *gold, int *location);
+int random_number(int min, int max);

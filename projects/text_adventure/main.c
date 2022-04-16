@@ -7,7 +7,7 @@ int main()
     int long temp_choice = 0;
     _Bool game = 1;
 
-    struct locations game_rooms[4] = {
+    struct locations game_rooms[5] = {
         {
             .room_title         = "Town Square",
             .room_description   = "You're standing in the town square. It's pretty much empty. You see an inn\n"
@@ -32,9 +32,15 @@ int main()
             .room_title         = "Back Room",
             .room_description   = "You wander into a dimly lit smoke filled room. A group of rough looking\n"
                                   "characters are sitting at a table throwing dice.",
-            .exit_descriptions  = "1) Leave",
-            .exits              = {1},
-        }
+            .exit_descriptions  = "1) Leave\n2) Play dice",
+            .exits              = {1, 4},
+        },
+        {
+            .room_title         = "Play Dice",
+            .room_description   = "You decide to join the rough group and play a game of dice.",
+            .exit_descriptions  = "\n",
+            .exits              = {},
+        },
     };
 
     struct character player;
@@ -44,20 +50,25 @@ int main()
         player.hit_points   = 10;
         player.defense      = 5;
         player.attack       = 5;
-        player.gold         = 0;
+        player.gold         = 50;
         player.location     = 0;
         
+    system("clear");
     while(game)
     {
-        system("clear");
+
+        if (player.location == 4)
+            dice(&player.gold, &player.location);
+
         display_room(player, game_rooms);
 
         input("Enter your choice: ", choice, 2);
-        temp_choice = strtol(choice, NULL, 4);
+        temp_choice = strtol(choice, NULL, 0);
+        system("clear");
 
         if(exit_is_valid(temp_choice, player.location, game_rooms))
             player.location = game_rooms[player.location].exits[temp_choice - 1];
-
+        
         if (strcmp(choice, "0") == 0)
             game = 0;
     }
