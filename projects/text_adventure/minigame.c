@@ -1,7 +1,7 @@
 #include "headers/data.h"
 #include <stdio.h>
 
-void dice(int *gold, int *location)
+void dice(int *gold, int *location, int *hp)
 {
     srand((unsigned)time(NULL));
     char string[2];
@@ -32,8 +32,8 @@ void dice(int *gold, int *location)
             system("clear");
 
             if (int_bet_amount > player_gold || int_bet_amount > computer_gold){
-                printf("You can't make that bet!\n");
                 system("clear");
+                printf("You can't make that bet!\n");
             }else{
                 player_dice = random_number(1, 6);
                 computer_dice = random_number(1, 6);
@@ -59,9 +59,16 @@ void dice(int *gold, int *location)
             game = 0;
         }
 
-        if (player_gold < 1 || computer_gold < 1){
+        if (player_gold < 1){
             *gold = player_gold;
             *location = 1;
+            game = 0;
+        }else if(computer_gold < 1){
+            printf("The angry man grabs you and throws you out the window. Ouch!\n");
+            printf("But hey, you beat him and got some gold!\n");
+            *gold = player_gold;
+            *hp -= 1;
+            *location = 0;
             game = 0;
         }
     }

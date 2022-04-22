@@ -21,11 +21,13 @@ char input(char text[], char string[], int string_length)
     printf("%s", text);
 
     while((character = getchar()) != '\n')
-        if (counter < string_length)
-        {
+        if (counter < string_length){
+
             string[counter] = character;
             counter = counter + 1;
+
         }
+
     string[counter] = '\0';
     printf("\n");
 
