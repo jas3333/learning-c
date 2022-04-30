@@ -7,7 +7,10 @@ int main()
 
     int trading_post = 0;
     int date_index = 0;
+    int weather_index = 0;
     int event_amount;
+    int mountains = 0;
+    int mountain_penalty = 0;
 
     struct family family = {
         .oxen           = 3,
@@ -43,14 +46,46 @@ int main()
         "December 20",
     };
 
+    char *spring_weather[] = {
+        "Sunny",
+        "Cloudy",
+        "Raining",
+        "Downpour",
+    };
+
+    char *summer_weather[] = {
+        "Sunny",
+        "Cloudy", 
+        "Raining",
+        "Heat Wave",
+    };
+
+    char *fall_weather[] = {
+        "Sunny",
+        "Cloudy",
+        "Light Snow",
+        "Blizzard",
+    };
+
     // Intro 
     intro(&family);
 
     while (family.is_alive)
     {
-        // The Trail
-        puts(dates[date_index]);
-        printf("%d\n", family.miles_traveled);
+        // The Trail Display Info
+        if (date_index < 4 )
+            display_travel_info(&family, dates[date_index], spring_weather[weather_index]);
+        if (date_index > 3 && date_index < 11)
+            display_travel_info(&family, dates[date_index], summer_weather[weather_index]);
+        if (date_index >= 11)
+            display_travel_info(&family, dates[date_index], fall_weather[weather_index]);
+        if (mountains)
+            printf("=-=-=-=-=-=-=-=-=-=-=-=\n"
+                   "|  Rugged Mountains!  |\n"
+                   "=-=-=-=-=-=-=-=-=-=-=-=\n");
+
+        
+        // On the Trail
         trail(&family, trading_post);
 
         // Set how many events you want
@@ -61,14 +96,34 @@ int main()
             event_amount -= 1;
         }
 
+        // How will you ration your food?
         food(&family);
 
         // Advance the Date
         date_index += 1;
-        
-        // Miles traveled today based on oxen amount
-        family.miles_traveled +=  randint(20, 30) * family.oxen;
 
+        // Add some rugged mountains
+        if (date_index % 5 == 0)
+        {
+            mountains = 1;
+            mountain_penalty = randint(10, 40);
+        }
+        else
+        {
+            mountains = 0;
+            mountain_penalty = 0;
+        }
+
+        // Set the weather
+        weather_index = randint(1, 4) - 1;
+        
+        // Miles traveled based on oxen amount
+        if (weather_index == 3)
+            family.miles_traveled +=  randint(10, 20) * family.oxen - mountain_penalty;
+        else
+            family.miles_traveled +=  randint(25, 35) * family.oxen - mountain_penalty;
+
+        // YOU DIED
         if (date_index == 18 && family.miles_traveled < 2000)
         {
             printf("You and your family gave it all, but unfortunately you didn't make it.\n"
@@ -76,6 +131,7 @@ int main()
             family.is_alive = 0;
         }
 
+        // Winning
         if (date_index <= 18 && family.miles_traveled >= 2000)
         {
             printf("You and your family pull into Oregon City after a long grueling trek.\n"
@@ -84,6 +140,7 @@ int main()
         }
            
     }
+    // End Main Loop
 
 
     return 0;

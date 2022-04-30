@@ -90,7 +90,7 @@ void intro(struct family *family)
 
     while (game)
     {
-        display_info(family);
+        display_info(family, 'h');
         printf("%s", game_intro[0].choices[0]);
         choice = int_input("Where do you want to go?: ", string, 2);
 

@@ -159,7 +159,7 @@ void events(struct family *family)
             // Shout at the animals
             else if (choice == 2)
             {
-                number = randint(1, 5);
+                number = randint(1, 10);
 
                 // Sets shout success rate
                 if (number >= 2)

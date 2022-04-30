@@ -42,7 +42,7 @@ void food(struct family *family)
     while (game)
     {
 
-        display_info(family);
+        display_info(family, 'h');
         printf("%s%s%s", food_consumption.description, food_consumption.dialog, food_consumption.choices[0]);
         choice = int_input("What will you choose?: ", string, 2);
 

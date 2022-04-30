@@ -21,7 +21,7 @@ void trail(struct family *family, int trading_post)
     while (game) 
     {
 
-        display_info(family);
+        display_info(family, 'h');
 
         if (trading_post)
             printf("%s%s%s", the_trail.description, the_trail.dialog, the_trail.choices[1]);
