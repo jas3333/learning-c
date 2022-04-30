@@ -130,9 +130,9 @@ int main()
         
         // Miles traveled based on oxen amount
         if (weather_index == 3)
-            family.miles_traveled +=  randint(10, 20) * family.oxen - mountain_penalty;
+            family.miles_traveled +=  (randint(10, 20) * family.oxen) - mountain_penalty;
         else
-            family.miles_traveled +=  randint(25, 35) * family.oxen - mountain_penalty;
+            family.miles_traveled +=  (randint(25, 35) * family.oxen) - mountain_penalty;
 
         // Death Check :/
         health_check(&family);
@@ -160,7 +160,7 @@ int main()
     }
     // End Main Loop
     if (family.size == 0)
-        printf("How unfortunate, you and your whole family has passed on. May you all\n"
+        printf("How unfortunate, you and your whole family have passed on. May you all\n"
                "rest in peace.\n");
 
     return 0;
