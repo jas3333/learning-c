@@ -50,7 +50,8 @@ void food(struct family *family)
         if (choice == 1)
         {
             puts(food_consumption.positive[0]);
-            family->food -= randint(10, 20);
+            family->food -= randint(2, 6) * family->size;
+            family->health -= 20;
             game = 0;
         }
 
@@ -58,7 +59,8 @@ void food(struct family *family)
         else if (choice == 2)
         {
             puts(food_consumption.positive[1]);
-            family->food -= randint(20, 40);
+            family->food -= randint(6, 15) * family->size;
+            family->health -= 10;
             game = 0;
         }
 
@@ -66,7 +68,8 @@ void food(struct family *family)
         else if (choice == 3)
         {
             puts(food_consumption.positive[2]);
-            family->food -= randint(40, 60);
+            family->food -= randint(15, 25) * family->size;
+            family->health += 10;
             game = 0;
         }
         else 

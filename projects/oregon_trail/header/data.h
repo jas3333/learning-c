@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 
 struct family {
@@ -20,14 +21,9 @@ struct family {
 struct game_text {
     char *description;
     char *dialog;
-    char *choices[3];
+    char *choices[5];
     char *negative[5];
     char *positive[5];
-};
-
-struct weather {
-    char *description;
-    int travel_speed;
 };
 
 
@@ -40,8 +36,10 @@ void display_info(struct family *family, char orientation);
 void display_travel_info(struct family *family, char date[], char weather[]);
 void hunt(struct family *family);
 void trail(struct family *family, int trading_post);
+void post(struct family *family);
 void intro(struct family *family);
 void events(struct family *family);
+void health_check(struct family *family);
 
 
 

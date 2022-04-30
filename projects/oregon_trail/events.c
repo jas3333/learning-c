@@ -4,191 +4,117 @@
 void events(struct family *family)
 {
     char string[5];
-    int number;
-    int active_event = 1;
-    int choice;
-
-    struct game_text events[10] = {
-        {
-            .description        = "=-=-=-=-=-=-=-=-=-=\n"
-                                  "|    Heavy Fog    |\n"
-                                  "=-=-=-=-=-=-=-=-=-=\n\n",
-
-            .dialog             = "You get lost in a thick dense fog and lost time trying to find\n"
-                                  "your way back to the trail.\n\n",
-                
-        },
-        {
-            .description        = "=-=-=-=-=-=-=-=-=-=\n"
-                                  "|    Lost Oxen    |\n"
-                                  "=-=-=-=-=-=-=-=-=-=\n\n",
-
-            .dialog             = "While traveling you find an oxen that looks like it lost its owner.\n"
-                                  "You adopt it and add it to your oxen team.\n\n",
-        },
-        {
-            .description        = "=-=-=-=-=-=-=-=-=-=\n"
-                                  "|    Oxen Down    |\n"
-                                  "=-=-=-=-=-=-=-=-=-=\n\n",
-
-            .dialog             = "While traveling your oxen stumbles. You stop and do a check up on it.\n",
-
-            .positive           = "After throughly checking over the oxen. Looks like it's healthy as an ox...\n\n",
-            .negative           = "After throughly checking over the oxen, looks like it has a maimed leg.\n"
-                                  "You will have to put it down. On the bright side, you will gain some food.\n\n",
-        },
-        {
-            .description        = "=-=-=-=-=-=-=-=-=-=\n"
-                                  "|   Blessed Day   |\n"
-                                  "=-=-=-=-=-=-=-=-=-=\n\n",
-
-            .dialog             = "As you and your family are walking the trail. You think of how blessed you\n"
-                                  "are to have such a wonderful family and making a journey of a lifetime.\n\n",
-        },
-        {
-            .description        = "=-=-=-=-=-=-=-=-=-=\n"
-                                  "|  Wild Animals   |\n"
-                                  "=-=-=-=-=-=-=-=-=-=\n\n",
-
-            .dialog             = "A pack of wild animals make their way toward your wagon.\n",
-
-            .choices            = "1) Shoot Them\n2) Shout at Them\n3) Run Around and Panic\n\n",
-
-            .positive           = {
-                                  "You point your gun at them and start firing! You manage to fend them off.\n",
-                                  "You let out a loud shout and scare the animals off.\n",
-                                  },
-
-            .negative           = {
-                                  "You point your gun at them and...click...click...click...You ran out of\n"
-                                  "ammo. They run past you and rummage through your food supply.\n",
-                                  "Your shouts go ignored and they rummage your food supply.\n",
-                                  "You run around in a panic and they rummage your food supply.\n",
-                                  },
-        },
-        {
-            .description        = "=-=-=-=-=-=-=-=-=-=\n"
-                                  "|    Uneventful   |\n"
-                                  "=-=-=-=-=-=-=-=-=-=\n\n",
-
-            .dialog             = "The day have been uneventful.\n\n",
-
-        },
+    char *gun_sounds[] = {
+        "pow",
+        "blam",
+        "bang",
+        "wham",
     };
 
-    // Random number to pick events
-    // Set it higher to get more uneventful days.
-    number = randint(1, 20);
+    int number;
+    int event_number;
 
-    // Heavy Fog
-    if (number == 1)
+    time_t before;
+    time_t after;
+
+
+    // Set max higher for more uneventful days
+    event_number = randint(1, 20);
+
+    if (event_number == 1)
     {
-        printf("%s%s", events[0].description, events[0].dialog);
+        printf("=-=-=-=-=-=-=-=-=-=-=-=-=\n"
+               "|     Wandering Oxen    |\n"
+               "=-=-=-=-=-=-=-=-=-=-=-=-=\n"
+               "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
+               " As you push over a rolling hill, you come upon a wandering oxen. It looks\n"
+               " like it has been abandoned. You wonder what happened to its owner. Well,\n"
+               " looks like its your lucky day. You adopt the oxen and add it to your team.\n"
+               "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
-        if (family->miles_traveled < 40)
-            family->miles_traveled = 0;
-        else
-            family->miles_traveled -= randint(10, 40);
-    }
-
-    // Wandering Oxen
-    else if (number == 2)
-    {
-        printf("%s%s", events[1].description, events[1].dialog);
         family->oxen += 1;
+        input("Press enter to continue.", string, 0);
     }
 
-    // Oxen Down
-    else if (number == 3)
+    // Wile Animals
+    else if (event_number == 2)
     {
-        printf("%s%s", events[2].description, events[2].dialog);
+        printf("=-=-=-=-=-=-=-=-=-=-=\n"
+               "|    Wild Animals   |\n"
+               "=-=-=-=-=-=-=-=-=-=-=\n"
+               "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
+               "You and your family are happily singing away when a pack of animals come\n"
+               "racing towards the wagon. You toss the kids into the wagon and pull out\n"
+               "your trusty rifle and aim...\n"
+               "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+        if (family->ammo >= 5)
+        {
+            // Get gun sound
+            number = randint(1, 4) - 1;
+            printf("Type: %s\n", gun_sounds[number]);
 
-        // Set higher to lower chance of losing oxen
-        number = randint(1, 10);
+            // Time Check, type fast!
+            before = time(NULL);
+            input(">>>> ", string, 5);
+            after = time(NULL);
 
-        if (number >= 2)
-            puts(events[2].positive[0]);
+            // Success
+            if (strcmp(string, gun_sounds[number]) == 0 && after - before < 3)
+            {
+                // Food gained
+                number = randint(30, 50);
+                printf("Nice shooting! You got them, with a bonus of %d lbs of meat!\n", number);
+                family->food += number;
+                family->ammo -= randint(2, 5);
 
+                input("Press enter to continue.", string, 0);
+            }
+            // Failure
+            else
+            {
+                printf("That was some sorry shooting. You missed them all, and they run past\n"
+                       "you and rummage through your food.\n");
+                family->food -= randint(20, 40);
+                family->ammo -= randint(2, 5);
+                input("Press enter to continue.", string, 0);
+            }
+
+        }
+        // Out of Ammo
         else
         {
-            puts(events[2].negative[0]);
-            family->oxen -= 1;
-        }
-    }
-
-    // Blessed Day
-    else if (number == 4)
-    {
-        printf("%s%s", events[3].description, events[3].dialog);
-        family->health += 10;
-    }
-
-    // Wild Animals
-    else if (number == 5)
-    {
-        while(active_event)
-        {
-
-            printf("%s%s%s", events[4].description, events[4].dialog, events[4].choices[0]);
-            choice = int_input("What will you do?: ", string, 2);
-
-            // Shoot the animals + Enough Ammo
-            if (choice == 1 && family->ammo >= 10)
-            {
-                puts(events[4].positive[0]);
-
-                // Amount of meat gained 
-                number = randint(30, 70);
-                printf("You gained %d lbs of meat.", number);
-
-                // Ammo used
-                number = randint(2, 10);
-                printf(" You used up %d rounds of ammo.\n\n", number);
-                family->ammo -= number;
-                active_event = 0;
-            }
-
-            // Shoot the animals + Not enough ammo
-            else if (choice == 1 && family->ammo < 10)
-            {
-                puts(events[4].negative[0]);
-                family->food -= randint(20, 50);
-                active_event = 0;
-            }
-
-            // Shout at the animals
-            else if (choice == 2)
-            {
-                number = randint(1, 10);
-
-                // Sets shout success rate
-                if (number >= 2)
-                {
-                    puts(events[4].positive[1]);
-                    active_event = 0;
-                }
-                else
-                {
-                    puts(events[4].negative[1]);
-                    family->food -= randint(20, 50);
-                    active_event = 0;
-                }
-            }
-            
-            // Panic!
-            else if (choice == 3)
-            {
-                puts(events[4].negative[2]);
-                family->food -= randint(20, 50);
-                active_event = 0;
-            }
+            printf("Looks like you are out of ammo and can't defend your family. They run past\n"
+                   "you and rummage through your food.\n");
+            family->food -= randint(20, 40);
+            input("Press enter to continue.", string, 0);
         }
     }
     // End Wild Animals
 
-    // Uneventful
-    else if (number >= 6)
+    // Dense Fog
+    else if (event_number == 3)
     {
-        printf("%s%s", events[5].description, events[5].dialog);
+        printf("=-=-=-=-=-=-=-=-=-=-=\n"
+               "|     Dense Fog     |\n"
+               "=-=-=-=-=-=-=-=-=-=-=\n"
+               "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
+               " A dense fog settles in the valley and you lose site of the trail. Several\n"
+               " hours pass by and you finally find your way back. You lost valuable miles.\n"
+               "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+        family->miles_traveled -= randint(20, 50);
+        input("Press enter to continue.", string, 0);
     }
+
+    // Uneventful Day
+    else if (event_number >= 4)
+    {
+        printf("=-=-=-=-=-=-=-=-=-=-=\n"
+               "|     Dense Fog     |\n"
+               "=-=-=-=-=-=-=-=-=-=-=\n"
+               "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
+               "It's been a relaxing uneventful day. You wish more days were like today.\n" 
+               "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+        input("Press enter to continue.", string, 0);
+    }
+
 }

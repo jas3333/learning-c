@@ -30,17 +30,33 @@ void trail(struct family *family, int trading_post)
  
         choice = int_input("What would you like to do?: ", string, 2); 
  
+        // Go Hunting
         if (choice == 1)
         {
-            hunt(family);
-            game = 0;
+            // Ammo Check, needs at least 10
+            if (family->ammo < 10)
+                printf("You don't have enough ammo.\n");
+            else
+            {
+                hunt(family);
+                game = 0;
+            }
         }
  
+        // Continue On 
         if (choice == 2)
         {
            family->miles_traveled += randint(10, 30) * family->oxen;
            game = 0;
         }
+
+        // Go to the trading post
+        if (choice == 3 && trading_post == 1)
+        {
+            post(family);
+            game = 0;
+        }
+
      }
 
 
