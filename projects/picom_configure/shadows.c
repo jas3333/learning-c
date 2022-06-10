@@ -10,10 +10,14 @@ void shadows(int row, int column)
         "shadow-opacity",
         "back",
     };
+
+    // Shadow value needs to be true or false
     char shadow[6];
+    // Pass shadow as a pointer to be changed to true or false
     get_bool("shadow", shadow);
     int shadow_bool;
 
+    // This will determine which bool to write to the config file from bool_values
     if (strcmp(shadow, "true") == 0)
         shadow_bool = 1;
     else
@@ -27,12 +31,15 @@ void shadows(int row, int column)
         get_value("shadow-offset-y"),
     };
 
-    int menu_row, menu_column, updated_menu_row;
-    int int_values_counter = 0;
-    int menu_size = sizeof(menu_items) / sizeof(menu_items[0]);
-    int selected_item = 0;
-    int input = 0;
-    float shadow_opacity = get_float("shadow-opacity");
+    int menu_row;
+    int menu_column;    
+    int updated_menu_row;
+
+    int int_values_counter      = 0;
+    int menu_size               = sizeof(menu_items) / sizeof(menu_items[0]);
+    int selected_item           = 0;
+    int input                   = 0;
+    float shadow_opacity        = get_float("shadow-opacity");
 
 
     WINDOW *shadows_window;
@@ -43,9 +50,10 @@ void shadows(int row, int column)
 
     while (input != 'q')
     {
-
        get_bool("shadow", shadow);
+       // Reset the row so it doesn't continue to increase
        updated_menu_row = (menu_row - menu_size) / 2;
+       // Resets the int_value counter back to zero to stay in bounds
        int_values_counter = 0;
        werase(shadows_window);
        box(shadows_window, '|', '-');
@@ -79,7 +87,6 @@ void shadows(int row, int column)
            wrefresh(shadows_window);
            wattroff(shadows_window, A_REVERSE);
        }
-          
 
        input = wgetch(shadows_window);
 
@@ -117,7 +124,6 @@ void shadows(int row, int column)
            update_string(bool_values[shadow_bool], "shadow");
        }
 
-
        if (input == KEY_RIGHT && selected_item == 1)
        {
            update_value(int_values[0]++, "shadow-radius", "shadow-radius");
@@ -153,13 +159,11 @@ void shadows(int row, int column)
                update_value_float(shadow_opacity -= .05, "shadow-opacity", "shadow-opacity");
        }
 
-
-
        if (input == '\n' && selected_item == 5)
            break;
     }
 
-
+    // Delete the window to get back to the main menu
     delwin(shadows_window);
     touchwin(stdscr);
 }

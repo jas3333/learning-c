@@ -13,5 +13,6 @@ void update_value_float(float new_value, char search_string[], char updated_stri
 void update_string(char update_string[], char search_string[]);
 float get_float(char search_text[]);
 void shadows(int row, int column);
+void corners(int row, int column);
 int length(char *string);
 

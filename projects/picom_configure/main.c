@@ -79,6 +79,11 @@ int main()
                 selected_item--;
         }
 
+        if (input == '\n' && selected_item == 0)
+        {
+            werase(menu);
+            corners(row, column);
+        }
         if (input == '\n' && selected_item == 1)
         {
             werase(menu);
