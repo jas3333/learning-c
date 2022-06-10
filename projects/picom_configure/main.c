@@ -1,5 +1,4 @@
 #include "header/main.h"
-#include <curses.h>
 
 int main()
 {
@@ -17,28 +16,29 @@ int main()
         "Exit",
     };
     
-    int row, column, menu_row, menu_column;
-    int input;
-    int selected_item = 0;
-    int program_active = 1;
-    int menu_size = sizeof(menu_items) / sizeof(menu_items[0]);
+    int row;
+    int column;
+    int menu_row;
+    int menu_column;
+    int updated_menu_row;
 
+    int input           = 0;
+    int selected_item   = 0;
+    int program_active  = 1;
+    int menu_size       = sizeof(menu_items) / sizeof(menu_items[0]);
 
     getmaxyx(stdscr, row, column);
 
     WINDOW *menu;
     menu = newwin(20, 35, row / 2 - 10, (column - 35) / 2);
     keypad(menu, TRUE);
-
     getmaxyx(menu, menu_row, menu_column);
 
     int menu_column_center = ((menu_column - strlen(menu_items[0])) / 2);
-    int updated_menu_row;
 
 
     while(program_active)
     {
-
         box(menu, '|', '-');
         refresh();
         // Resets menu to original position
@@ -89,17 +89,17 @@ int main()
             werase(menu);
             shadows(row, column);
         }
-
-
-
+        if (input == '\n' && selected_item == 2)
+        {
+            werase(menu);
+            fading(row, column);
+        }
 
         if (input == '\n' && selected_item == 6)
             program_active = 0;
     }
 
     endwin();
-
-
     return 0;
 }
 
