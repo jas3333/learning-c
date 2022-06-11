@@ -15,5 +15,6 @@ float get_float(char search_text[]);
 void shadows(int row, int column);
 void corners(int row, int column);
 void fading(int row, int column);
+void opacity(int row, int column);
 int length(char *string);
 

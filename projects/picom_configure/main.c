@@ -94,6 +94,11 @@ int main()
             werase(menu);
             fading(row, column);
         }
+        if (input == '\n' && selected_item == 3)
+        {
+            werase(menu);
+            opacity(row, column);
+        }
 
         if (input == '\n' && selected_item == 6)
             program_active = 0;
