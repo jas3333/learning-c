@@ -16,5 +16,6 @@ void shadows(int row, int column);
 void corners(int row, int column);
 void fading(int row, int column);
 void opacity(int row, int column);
+void blur(int row, int column);
 int length(char *string);
 

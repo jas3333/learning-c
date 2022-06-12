@@ -99,6 +99,11 @@ int main()
             werase(menu);
             opacity(row, column);
         }
+        if (input == '\n' && selected_item == 4)
+        {
+            werase(menu);
+            blur(row, column);
+        }
 
         if (input == '\n' && selected_item == 6)
             program_active = 0;

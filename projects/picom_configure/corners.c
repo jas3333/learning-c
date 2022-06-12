@@ -69,11 +69,11 @@ void corners(int row, int column)
 
         if (input == KEY_RIGHT && selected_item == 0)
             if (corner_value < 20)
-                update_value(corner_value++, "corner-radius", "corner-radius");
+                update_value(corner_value += 1, "corner-radius", "corner-radius");
 
         if (input == KEY_LEFT && selected_item == 0)
             if (corner_value > 0)
-                update_value(corner_value--, "corner-radius", "corner-radius");
+                update_value(corner_value -= 1, "corner-radius", "corner-radius");
 
         if (input == '\n' && selected_item == 1)
             break;
