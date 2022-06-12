@@ -16,8 +16,6 @@ void blur(int row, int column)
 
     char blur_method[20];
     get_bool("blur-method", blur_method);
-    char *blur_method_pointer = blur_method;
-
 
     char blur_background[6];
     get_bool("blur-background", blur_background);

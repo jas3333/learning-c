@@ -126,27 +126,27 @@ void shadows(int row, int column)
 
        if (input == KEY_RIGHT && selected_item == 1)
        {
-           update_value(int_values[0]++, "shadow-radius", "shadow-radius");
+           update_value(int_values[0] += 1, "shadow-radius", "shadow-radius");
        }
        if (input == KEY_LEFT && selected_item == 1)
        {
-           update_value(int_values[0]--, "shadow-radius", "shadow-radius");
+           update_value(int_values[0] -= 1, "shadow-radius", "shadow-radius");
        }
        if (input == KEY_RIGHT && selected_item == 2)
        {
-           update_value(int_values[1]++, "shadow-offset-x", "shadow-offset-x");
+           update_value(int_values[1] += 1, "shadow-offset-x", "shadow-offset-x");
        }
        if (input == KEY_LEFT && selected_item == 2)
        {
-           update_value(int_values[1]--, "shadow-offset-x", "shadow-offset-x");
+           update_value(int_values[1] -= 1, "shadow-offset-x", "shadow-offset-x");
        }
        if (input == KEY_RIGHT && selected_item == 3)
        {
-           update_value(int_values[2]++, "shadow-offset-y", "shadow-offset-y");
+           update_value(int_values[2] += 1, "shadow-offset-y", "shadow-offset-y");
        }
        if (input == KEY_LEFT && selected_item == 3)
        {
-           update_value(int_values[2]--, "shadow-offset-y", "shadow-offset-y");
+           update_value(int_values[2] -= 1, "shadow-offset-y", "shadow-offset-y");
        }
        if (input == KEY_RIGHT && selected_item == 4)
        {

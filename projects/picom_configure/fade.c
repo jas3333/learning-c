@@ -174,10 +174,10 @@ void fading(int row, int column)
                 update_value_float(float_storage[1] -= .01, "fade-out-step", "fade-out-step");
 
         if (input == KEY_RIGHT && selected_item == 5)
-            update_value(fade_delta++, fade_menu_items[5], fade_menu_items[5]);
+            update_value(fade_delta += 1, "fade-delta", "fade-delta");
         if (input == KEY_LEFT && selected_item == 5)
             if (fade_delta > 0)
-                update_value(fade_delta--, fade_menu_items[5], fade_menu_items[5]);
+                update_value(fade_delta -= 1, fade_menu_items[5], fade_menu_items[5]);
 
         if(input == '\n' && selected_item == 6)
             break;

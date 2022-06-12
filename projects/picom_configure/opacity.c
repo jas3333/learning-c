@@ -54,8 +54,6 @@ void opacity(int row, int column)
         werase(opacity_window);
         box(opacity_window, '|', '-');
 
-        mvwprintw(opacity_window, 2, 2, "%d", selected_item);
-
         for (int i = 0; i < menu_size; i++)
         {
             if (selected_item == i)
