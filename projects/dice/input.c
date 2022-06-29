@@ -24,6 +24,6 @@ char input(char print_text[], char string[], int size)
 
 int random_number(int min, int max)
 {
-    int number = (rand() % max) + min;
+    int number = (rand() % (max - min + 1)) + min;
     return number;
 }
